@@ -7,6 +7,9 @@
     "default_popup": "popup.html"
   },
   "permissions": ["storage"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
   "web_accessible_resources": [
     {
       "resources": ["teams.html", "people.html", "set_date.html", "activity_details.html"],
