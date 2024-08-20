@@ -9,7 +9,7 @@
   "permissions": ["storage"],
   "web_accessible_resources": [
     {
-      "resources": ["teams.html", "people.html", "set_date.html"],
+      "resources": ["teams.html", "people.html", "set_date.html", "activity_details.html"],
       "matches": ["<all_urls>"]
     }
   ]

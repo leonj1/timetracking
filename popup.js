@@ -29,11 +29,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         for (let i = 0; i < 12; i++) {
             const cell = document.createElement('div');
-            cell.className = 'h-8 rounded';
+            cell.className = 'h-8 rounded cursor-pointer';
             const intensity = monthlyActivity[i] / maxActivity;
             const color = getColorForIntensity(intensity);
             cell.style.backgroundColor = color;
             cell.title = `${monthlyActivity[i]} people in ${new Date(currentYear, i).toLocaleString('default', { month: 'long' })}`;
+            cell.dataset.month = i;
+            cell.addEventListener('click', () => {
+                window.location.href = `activity_details.html?month=${i}&year=${currentYear}`;
+            });
             activityGrid.appendChild(cell);
         }
     }
