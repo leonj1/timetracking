@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello Extension</title>
+    <title>Manage People</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@shadcn/ui@0.0.1/dist/index.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-gray-100 p-4 text-gray-900">
     <div class="max-w-sm mx-auto">
-        <button id="manageTeamsButton" class="btn btn-primary w-full mb-4">Manage Teams</button>
-        <button id="managePeopleButton" class="btn btn-primary w-full">Manage People</button>
+        <button id="backButton" class="btn btn-secondary mb-4">Back to Home</button>
+        <h1 class="text-2xl font-bold mb-4">Manage People</h1>
+        <div id="peopleList"></div>
+        <button id="addPersonButton" class="btn btn-primary w-full mt-4">Add New Person</button>
     </div>
-    <script src="popup.js"></script>
+    <script src="people.js"></script>
 </body>
 </html>
