@@ -26,24 +26,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
         activityData.forEach((person, index) => {
             const row = activityTable.insertRow();
-            row.insertCell(0).textContent = person.team;
-            row.insertCell(1).textContent = person.name;
-            
-            // Calculate and display the number of days
-            const startDate = new Date(person.startDate);
-            const endDate = person.endDate ? new Date(person.endDate) : null;
-            const days = endDate ? Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1 : 1; // If no end date, set days to 1
-            row.insertCell(2).textContent = days;
-            
-            const startCell = row.insertCell(3);
-            startCell.textContent = formatDate(new Date(person.startDate));
-            startCell.setAttribute('data-index', index);
-            startCell.classList.add('editable', 'start-date');
+            const cells = [
+                person.team,
+                person.name,
+                calculateDays(person),
+                formatDate(new Date(person.startDate)),
+                person.endDate ? formatDate(new Date(person.endDate)) : 'N/A'
+            ];
 
-            const endCell = row.insertCell(4);
-            endCell.textContent = person.endDate ? formatDate(new Date(person.endDate)) : 'N/A';
-            endCell.setAttribute('data-index', index);
-            endCell.classList.add('editable', 'end-date');
+            cells.forEach((cellContent, cellIndex) => {
+                const cell = row.insertCell(cellIndex);
+                cell.textContent = cellContent;
+                cell.classList.add('text-center');
+                if (cellIndex === 3 || cellIndex === 4) {
+                    cell.setAttribute('data-index', index);
+                    cell.classList.add('editable', cellIndex === 3 ? 'start-date' : 'end-date');
+                }
+            });
+
+            function calculateDays(person) {
+                const startDate = new Date(person.startDate);
+                const endDate = person.endDate ? new Date(person.endDate) : null;
+                return endDate ? Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1 : 1;
+            }
 
     function formatDate(date) {
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -51,12 +56,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
             const actionsCell = row.insertCell(5);
+            actionsCell.className = 'text-center';
             const editButton = document.createElement('button');
             editButton.innerHTML = '✏️'; // Pencil emoji
             editButton.className = 'edit-dates btn btn-small btn-secondary';
             editButton.setAttribute('data-index', index);
             editButton.setAttribute('title', 'Edit dates'); // Add tooltip
-            actionsCell.className = 'text-center'; // Center the content of the cell
             actionsCell.appendChild(editButton);
 
         });
