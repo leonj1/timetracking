@@ -48,6 +48,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 cell.classList.add('text-center');
             });
 
+            // Add edit button
+            const editCell = row.insertCell();
+            editCell.classList.add('text-center');
+            const editButton = document.createElement('button');
+            editButton.innerHTML = '✏️';
+            editButton.className = 'edit-activity btn btn-small btn-secondary';
+            editButton.dataset.index = index;
+            editCell.appendChild(editButton);
+
             function calculateDays(activity) {
                 const startDate = new Date(activity.startDate);
                 const endDate = activity.endDate ? new Date(activity.endDate) : null;
@@ -62,4 +71,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     renderActivityDetails();
+
+    activityTable.addEventListener('click', function(e) {
+        if (e.target.classList.contains('edit-activity')) {
+            const index = e.target.dataset.index;
+            const activity = activityData[index];
+            
+            const newStartDate = prompt('Enter new start date (YYYY-MM-DD):', activity.startDate);
+            const newEndDate = prompt('Enter new end date (YYYY-MM-DD), or leave empty if no end date:', activity.endDate || '');
+            const newReason = prompt('Enter new reason:', activity.reason);
+
+            if (newStartDate && newReason) {
+                const person = people.find(p => p.name === activity.name && p.team === activity.team);
+                const activityIndex = person.activities.findIndex(a => 
+                    a.startDate === activity.startDate && 
+                    a.endDate === activity.endDate && 
+                    a.reason === activity.reason
+                );
+
+                if (activityIndex !== -1) {
+                    person.activities[activityIndex] = {
+                        startDate: newStartDate,
+                        endDate: newEndDate || null,
+                        reason: newReason
+                    };
+
+                    localStorage.setItem('people', JSON.stringify(people));
+                    renderActivityDetails();
+                }
+            }
+        }
+    });
 });
