@@ -59,6 +59,13 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('reason').value = person.reason;
     }
 
+    // Set end date to same month and year as start date
+    document.getElementById('startDate').addEventListener('change', function() {
+        const startDate = new Date(this.value);
+        const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
+        document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+    });
+
     // Autocomplete for reasons
     const reasonInput = document.getElementById('reason');
     reasonInput.addEventListener('input', function() {
