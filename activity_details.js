@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderActivityDetails() {
         const people = JSON.parse(localStorage.getItem('people')) || [];
+        activityTable.innerHTML = ''; // Clear existing rows
         const activityData = people
             .filter(person => {
                 const startDate = new Date(person.startDate);
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
 
-        activityData.forEach(person => {
+        activityData.forEach((person, index) => {
             const row = activityTable.insertRow();
             row.insertCell(0).textContent = person.team;
             row.insertCell(1).textContent = person.name;
@@ -34,10 +35,49 @@ document.addEventListener('DOMContentLoaded', function() {
             const days = endDate ? Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1 : 1; // If no end date, set days to 1
             row.insertCell(2).textContent = days;
             
-            row.insertCell(3).textContent = new Date(person.startDate).toLocaleDateString();
-            row.insertCell(4).textContent = person.endDate ? new Date(person.endDate).toLocaleDateString() : 'N/A';
+            const startCell = row.insertCell(3);
+            startCell.textContent = new Date(person.startDate).toLocaleDateString();
+            startCell.setAttribute('data-index', index);
+            startCell.classList.add('editable', 'start-date');
+
+            const endCell = row.insertCell(4);
+            endCell.textContent = person.endDate ? new Date(person.endDate).toLocaleDateString() : 'N/A';
+            endCell.setAttribute('data-index', index);
+            endCell.classList.add('editable', 'end-date');
+
+            const actionsCell = row.insertCell(5);
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.className = 'edit-dates btn btn-small btn-secondary mr-2';
+            editButton.setAttribute('data-index', index);
+            actionsCell.appendChild(editButton);
         });
     }
+
+    activityTable.addEventListener('click', function(e) {
+        if (e.target.classList.contains('edit-dates')) {
+            const index = e.target.getAttribute('data-index');
+            const row = e.target.closest('tr');
+            const startCell = row.querySelector('.start-date');
+            const endCell = row.querySelector('.end-date');
+
+            const startDate = prompt('Enter new start date (YYYY-MM-DD):', startCell.textContent);
+            if (startDate) {
+                const people = JSON.parse(localStorage.getItem('people')) || [];
+                people[index].startDate = startDate;
+                startCell.textContent = new Date(startDate).toLocaleDateString();
+            }
+
+            const endDate = prompt('Enter new end date (YYYY-MM-DD), or leave blank for no end date:', endCell.textContent === 'N/A' ? '' : endCell.textContent);
+            if (endDate !== null) {
+                const people = JSON.parse(localStorage.getItem('people')) || [];
+                people[index].endDate = endDate || null;
+                endCell.textContent = endDate ? new Date(endDate).toLocaleDateString() : 'N/A';
+                localStorage.setItem('people', JSON.stringify(people));
+                renderActivityDetails(); // Re-render to update days calculation
+            }
+        }
+    });
 
     renderActivityDetails();
 });
