@@ -17,12 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const monthlyActivity = new Array(12).fill(0);
 
         people.forEach(person => {
-            if (person.startDate) {
-                const startDate = new Date(person.startDate);
-                if (startDate.getFullYear() === currentYear) {
-                    monthlyActivity[startDate.getMonth()]++;
+            (person.activities || []).forEach(activity => {
+                if (activity.startDate) {
+                    const startDate = new Date(activity.startDate);
+                    if (startDate.getFullYear() === currentYear) {
+                        monthlyActivity[startDate.getMonth()]++;
+                    }
                 }
-            }
+            });
         });
 
         const maxActivity = Math.max(...monthlyActivity);
@@ -33,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const intensity = monthlyActivity[i] / maxActivity;
             const color = getColorForIntensity(intensity);
             cell.style.backgroundColor = color;
-            cell.title = `${monthlyActivity[i]} people in ${new Date(currentYear, i).toLocaleString('default', { month: 'long' })}`;
+            cell.title = `${monthlyActivity[i]} activities in ${new Date(currentYear, i).toLocaleString('default', { month: 'long' })}`;
             cell.dataset.month = i;
             cell.addEventListener('click', () => {
                 window.location.href = `activity_details.html?month=${i}&year=${currentYear}`;

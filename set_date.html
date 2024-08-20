@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Set Date for Person</title>
+    <title>Manage Activities for Person</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-gray-100 p-4 text-gray-900">
-    <div class="max-w-sm mx-auto">
+    <div class="max-w-lg mx-auto">
         <button id="backButton" class="btn btn-secondary mb-4">Back to People</button>
-        <h1 class="text-2xl font-bold mb-4">Set Date for Person</h1>
+        <h1 class="text-2xl font-bold mb-4">Manage Activities for Person</h1>
         <div id="personInfo" class="mb-4"></div>
-        <form id="dateForm">
+        <div id="activitiesList" class="mb-4"></div>
+        <form id="activityForm" class="bg-white p-4 rounded shadow">
             <div class="mb-4">
                 <label for="startDate" class="block mb-2">Start Date:</label>
                 <input type="date" id="startDate" name="startDate" class="w-full p-2 border rounded" required>
@@ -25,7 +26,7 @@
                 <label for="reason" class="block mb-2">Reason:</label>
                 <input type="text" id="reason" name="reason" class="w-full p-2 border rounded" required>
             </div>
-            <button type="submit" class="btn btn-primary w-full">Save Date</button>
+            <button type="submit" class="btn btn-primary w-full">Add Activity</button>
         </form>
     </div>
     <script src="set_date.js"></script>

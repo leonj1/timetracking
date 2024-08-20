@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const backButton = document.getElementById('backButton');
     const personInfo = document.getElementById('personInfo');
-    const dateForm = document.getElementById('dateForm');
+    const activitiesList = document.getElementById('activitiesList');
+    const activityForm = document.getElementById('activityForm');
 
     const urlParams = new URLSearchParams(window.location.search);
     const personIndex = urlParams.get('index');
@@ -16,13 +17,30 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    personInfo.textContent = `Setting date for: ${person.name} (${person.team})`;
+    personInfo.textContent = `Managing activities for: ${person.name} (${person.team})`;
+
+    function renderActivities() {
+        activitiesList.innerHTML = '';
+        if (!person.activities || person.activities.length === 0) {
+            activitiesList.innerHTML = '<p>No activities yet.</p>';
+            return;
+        }
+        person.activities.forEach((activity, index) => {
+            const activityElement = document.createElement('div');
+            activityElement.className = 'bg-white p-2 mb-2 rounded flex justify-between items-center';
+            activityElement.innerHTML = `
+                <span>${activity.startDate} to ${activity.endDate || 'N/A'}: ${activity.reason}</span>
+                <button class="delete-activity btn btn-small btn-danger" data-index="${index}">Delete</button>
+            `;
+            activitiesList.appendChild(activityElement);
+        });
+    }
 
     backButton.addEventListener('click', function() {
         window.location.href = 'people.html';
     });
 
-    dateForm.addEventListener('submit', function(e) {
+    activityForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
@@ -33,9 +51,15 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        person.startDate = startDate;
-        person.endDate = endDate || null;
-        person.reason = reason;
+        if (!person.activities) {
+            person.activities = [];
+        }
+
+        person.activities.push({
+            startDate: startDate,
+            endDate: endDate || null,
+            reason: reason
+        });
 
         if (!reasons.includes(reason)) {
             reasons.push(reason);
@@ -44,20 +68,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         localStorage.setItem('people', JSON.stringify(people));
 
-        alert('Date and reason saved successfully');
-        window.location.href = 'people.html';
+        renderActivities();
+        activityForm.reset();
     });
-
-    // Pre-fill form if dates are already set
-    if (person.startDate) {
-        document.getElementById('startDate').value = person.startDate;
-    }
-    if (person.endDate) {
-        document.getElementById('endDate').value = person.endDate;
-    }
-    if (person.reason) {
-        document.getElementById('reason').value = person.reason;
-    }
 
     // Set end date to same month and year as start date
     document.getElementById('startDate').addEventListener('change', function() {
@@ -82,4 +95,17 @@ document.addEventListener('DOMContentLoaded', function() {
         datalist.innerHTML = matchingReasons.map(r => `<option value="${r}">`).join('');
         this.setAttribute('list', 'reasonSuggestions');
     });
+
+    activitiesList.addEventListener('click', function(e) {
+        if (e.target.classList.contains('delete-activity')) {
+            const index = e.target.dataset.index;
+            if (confirm('Are you sure you want to delete this activity?')) {
+                person.activities.splice(index, 1);
+                localStorage.setItem('people', JSON.stringify(people));
+                renderActivities();
+            }
+        }
+    });
+
+    renderActivities();
 });
