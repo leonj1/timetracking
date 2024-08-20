@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Calculate and display the number of days
             const startDate = new Date(person.startDate);
-            const endDate = person.endDate ? new Date(person.endDate) : new Date();
-            const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1; // Add 1 to include both start and end dates
+            const endDate = person.endDate ? new Date(person.endDate) : null;
+            const days = endDate ? Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1 : 1; // If no end date, set days to 1
             row.insertCell(2).textContent = days;
             
             row.insertCell(3).textContent = new Date(person.startDate).toLocaleDateString();
