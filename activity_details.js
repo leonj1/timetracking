@@ -36,14 +36,19 @@ document.addEventListener('DOMContentLoaded', function() {
             row.insertCell(2).textContent = days;
             
             const startCell = row.insertCell(3);
-            startCell.textContent = new Date(person.startDate).toLocaleDateString();
+            startCell.textContent = formatDate(new Date(person.startDate));
             startCell.setAttribute('data-index', index);
             startCell.classList.add('editable', 'start-date');
 
             const endCell = row.insertCell(4);
-            endCell.textContent = person.endDate ? new Date(person.endDate).toLocaleDateString() : 'N/A';
+            endCell.textContent = person.endDate ? formatDate(new Date(person.endDate)) : 'N/A';
             endCell.setAttribute('data-index', index);
             endCell.classList.add('editable', 'end-date');
+
+    function formatDate(date) {
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return `${months[date.getMonth()]} ${date.getDate()}`;
+    }
 
             const actionsCell = row.insertCell(5);
             const editButton = document.createElement('button');
