@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 person.name,
                 calculateDays(person),
                 formatDate(new Date(person.startDate)),
-                person.endDate ? formatDate(new Date(person.endDate)) : 'N/A'
+                person.endDate ? formatDate(new Date(person.endDate)) : 'N/A',
+                person.reason || 'N/A'
             ];
 
             cells.forEach((cellContent, cellIndex) => {
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return `${months[date.getMonth()]} ${date.getDate()}`;
     }
 
-            const actionsCell = row.insertCell(5);
+            const actionsCell = row.insertCell(6);
             actionsCell.className = 'text-center';
             const editButton = document.createElement('button');
             editButton.innerHTML = '✏️'; // Pencil emoji

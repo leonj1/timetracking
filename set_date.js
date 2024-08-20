@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const personIndex = urlParams.get('index');
 
     let people = JSON.parse(localStorage.getItem('people')) || [];
+    let reasons = JSON.parse(localStorage.getItem('reasons')) || [];
     const person = people[personIndex];
 
     if (!person) {
@@ -25,13 +26,25 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
+        const reason = document.getElementById('reason').value.trim();
+
+        if (!reason) {
+            alert('Please enter a reason');
+            return;
+        }
 
         person.startDate = startDate;
         person.endDate = endDate || null;
+        person.reason = reason;
+
+        if (!reasons.includes(reason)) {
+            reasons.push(reason);
+            localStorage.setItem('reasons', JSON.stringify(reasons));
+        }
 
         localStorage.setItem('people', JSON.stringify(people));
 
-        alert('Date saved successfully');
+        alert('Date and reason saved successfully');
         window.location.href = 'people.html';
     });
 
@@ -42,4 +55,24 @@ document.addEventListener('DOMContentLoaded', function() {
     if (person.endDate) {
         document.getElementById('endDate').value = person.endDate;
     }
+    if (person.reason) {
+        document.getElementById('reason').value = person.reason;
+    }
+
+    // Autocomplete for reasons
+    const reasonInput = document.getElementById('reason');
+    reasonInput.addEventListener('input', function() {
+        const value = this.value.toLowerCase();
+        const matchingReasons = reasons.filter(r => r.toLowerCase().startsWith(value));
+        
+        // Create and show datalist
+        let datalist = document.getElementById('reasonSuggestions');
+        if (!datalist) {
+            datalist = document.createElement('datalist');
+            datalist.id = 'reasonSuggestions';
+            this.parentNode.appendChild(datalist);
+        }
+        datalist.innerHTML = matchingReasons.map(r => `<option value="${r}">`).join('');
+        this.setAttribute('list', 'reasonSuggestions');
+    });
 });
