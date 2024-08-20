@@ -48,9 +48,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const actionsCell = row.insertCell(5);
             const editButton = document.createElement('button');
             editButton.innerHTML = '✏️'; // Pencil emoji
-            editButton.className = 'edit-dates btn btn-small btn-secondary mr-2';
+            editButton.className = 'edit-dates btn btn-small btn-secondary';
             editButton.setAttribute('data-index', index);
             editButton.setAttribute('title', 'Edit dates'); // Add tooltip
+            actionsCell.className = 'text-center'; // Center the content of the cell
             actionsCell.appendChild(editButton);
 
         });
