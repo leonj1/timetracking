@@ -7,9 +7,14 @@
 }
 
 .btn-primary {
-    @apply bg-blue-500 text-white;
+    @apply bg-blue-600 text-white;
 }
 
 .btn-primary:hover {
-    @apply bg-blue-700;
+    @apply bg-blue-800;
+}
+
+body {
+    min-width: 300px;
+    min-height: 200px;
 }
