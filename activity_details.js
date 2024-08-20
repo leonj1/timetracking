@@ -66,11 +66,16 @@ document.addEventListener('DOMContentLoaded', function() {
     activityTable.addEventListener('click', function(e) {
         if (e.target.classList.contains('delete-person')) {
             const index = e.target.getAttribute('data-index');
-            if (confirm('Are you sure you want to delete this person?')) {
+            if (confirm('Are you sure you want to delete this activity record?')) {
                 const people = JSON.parse(localStorage.getItem('people')) || [];
-                people.splice(index, 1);
-                localStorage.setItem('people', JSON.stringify(people));
-                renderActivityDetails(); // Re-render the table
+                const person = people[index];
+                if (person) {
+                    // Remove the start and end dates for this specific activity
+                    delete person.startDate;
+                    delete person.endDate;
+                    localStorage.setItem('people', JSON.stringify(people));
+                    renderActivityDetails(); // Re-render the table
+                }
             }
         }
         if (e.target.classList.contains('edit-dates')) {
