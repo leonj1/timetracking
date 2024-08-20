@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             row.insertCell(0).textContent = person.team;
             row.insertCell(1).textContent = person.name;
             row.insertCell(2).textContent = new Date(person.startDate).toLocaleDateString();
+            row.insertCell(3).textContent = person.endDate ? new Date(person.endDate).toLocaleDateString() : 'N/A';
         });
     }
 
