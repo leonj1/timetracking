@@ -26,23 +26,27 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('people', JSON.stringify(people));
     }
 
+    const personNameInput = document.getElementById('personName');
+    const teamSelect = document.getElementById('teamSelect');
+
+    function populateTeamSelect() {
+        teamSelect.innerHTML = '<option value="">Select a team</option>';
+        teams.forEach((team, index) => {
+            const option = document.createElement('option');
+            option.value = team;
+            option.textContent = team;
+            teamSelect.appendChild(option);
+        });
+    }
+
     function addOrEditPerson(personToEdit = null) {
-        const name = prompt('Enter person name:', personToEdit ? personToEdit.name : '');
-        if (!name) return;
+        const name = personNameInput.value.trim();
+        const selectedTeam = teamSelect.value;
 
-        const teamOptions = teams.map((team, index) => `${index + 1}. ${team}`).join('\n');
-        const teamPrompt = `Select a team number for ${name}:\n${teamOptions}`;
-        const teamSelection = prompt(teamPrompt);
-
-        if (!teamSelection) return;
-
-        const selectedTeamIndex = parseInt(teamSelection) - 1;
-        if (isNaN(selectedTeamIndex) || selectedTeamIndex < 0 || selectedTeamIndex >= teams.length) {
-            alert('Invalid team selection');
+        if (!name || !selectedTeam) {
+            alert('Please enter a name and select a team');
             return;
         }
-
-        const selectedTeam = teams[selectedTeamIndex];
 
         if (personToEdit) {
             personToEdit.name = name;
@@ -53,6 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         savePeople();
         renderPeople();
+        personNameInput.value = '';
+        teamSelect.value = '';
     }
 
     backButton.addEventListener('click', function() {
@@ -62,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
     addPersonButton.addEventListener('click', function() {
         addOrEditPerson();
     });
+
+    populateTeamSelect();
 
     peopleList.addEventListener('click', function(e) {
         if (e.target.classList.contains('edit-person')) {
