@@ -27,14 +27,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const row = activityTable.insertRow();
             row.insertCell(0).textContent = person.team;
             row.insertCell(1).textContent = person.name;
-            row.insertCell(2).textContent = new Date(person.startDate).toLocaleDateString();
-            row.insertCell(3).textContent = person.endDate ? new Date(person.endDate).toLocaleDateString() : 'N/A';
             
             // Calculate and display the number of days
             const startDate = new Date(person.startDate);
             const endDate = person.endDate ? new Date(person.endDate) : new Date();
             const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
-            row.insertCell(4).textContent = days;
+            row.insertCell(2).textContent = days;
+            
+            row.insertCell(3).textContent = new Date(person.startDate).toLocaleDateString();
+            row.insertCell(4).textContent = person.endDate ? new Date(person.endDate).toLocaleDateString() : 'N/A';
         });
     }
 
