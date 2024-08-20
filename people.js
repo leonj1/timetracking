@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
             personElement.innerHTML = `
                 <span>${person.name} (${person.team})</span>
                 <div>
+                    <button class="set-person-date btn btn-small btn-primary mr-2" data-index="${index}">Set</button>
                     <button class="edit-person btn btn-small btn-secondary mr-2" data-index="${index}">Edit</button>
                     <button class="delete-person btn btn-small btn-danger" data-index="${index}">Delete</button>
                 </div>
@@ -72,7 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
     populateTeamSelect();
 
     peopleList.addEventListener('click', function(e) {
-        if (e.target.classList.contains('edit-person')) {
+        if (e.target.classList.contains('set-person-date')) {
+            const index = e.target.dataset.index;
+            window.location.href = `set_date.html?index=${index}`;
+        } else if (e.target.classList.contains('edit-person')) {
             const index = e.target.dataset.index;
             addOrEditPerson(people[index]);
         } else if (e.target.classList.contains('delete-person')) {

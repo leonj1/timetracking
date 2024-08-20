@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Date for Person</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@shadcn/ui@0.0.1/dist/index.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 p-4 text-gray-900">
+    <div class="max-w-sm mx-auto">
+        <button id="backButton" class="btn btn-secondary mb-4">Back to People</button>
+        <h1 class="text-2xl font-bold mb-4">Set Date for Person</h1>
+        <div id="personInfo" class="mb-4"></div>
+        <form id="dateForm">
+            <div class="mb-4">
+                <label for="startDate" class="block mb-2">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" class="w-full p-2 border rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="endDate" class="block mb-2">End Date (optional):</label>
+                <input type="date" id="endDate" name="endDate" class="w-full p-2 border rounded">
+            </div>
+            <button type="submit" class="btn btn-primary w-full">Save Date</button>
+        </form>
+    </div>
+    <script src="set_date.js"></script>
+</body>
+</html>
