@@ -65,11 +65,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     activityTable.addEventListener('click', function(e) {
         if (e.target.classList.contains('delete-person')) {
-            const index = e.target.getAttribute('data-index');
+            const index = parseInt(e.target.getAttribute('data-index'));
             if (confirm('Are you sure you want to delete this activity record?')) {
                 const people = JSON.parse(localStorage.getItem('people')) || [];
-                const person = people[index];
-                if (person) {
+                if (index >= 0 && index < people.length) {
+                    const person = people[index];
                     // Remove the start and end dates for this specific activity
                     delete person.startDate;
                     delete person.endDate;
