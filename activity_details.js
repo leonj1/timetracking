@@ -52,10 +52,27 @@ document.addEventListener('DOMContentLoaded', function() {
             editButton.setAttribute('data-index', index);
             editButton.setAttribute('title', 'Edit dates'); // Add tooltip
             actionsCell.appendChild(editButton);
+
+            const deleteCell = row.insertCell(6);
+            const deleteButton = document.createElement('button');
+            deleteButton.innerHTML = '🗑️'; // Trash can emoji
+            deleteButton.className = 'delete-person btn btn-small btn-danger';
+            deleteButton.setAttribute('data-index', index);
+            deleteButton.setAttribute('title', 'Delete person'); // Add tooltip
+            deleteCell.appendChild(deleteButton);
         });
     }
 
     activityTable.addEventListener('click', function(e) {
+        if (e.target.classList.contains('delete-person')) {
+            const index = e.target.getAttribute('data-index');
+            if (confirm('Are you sure you want to delete this person?')) {
+                const people = JSON.parse(localStorage.getItem('people')) || [];
+                people.splice(index, 1);
+                localStorage.setItem('people', JSON.stringify(people));
+                renderActivityDetails(); // Re-render the table
+            }
+        }
         if (e.target.classList.contains('edit-dates')) {
             const index = e.target.getAttribute('data-index');
             const row = e.target.closest('tr');
