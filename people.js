@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
             personElement.innerHTML = `
                 <span>${person.name} (${person.team})</span>
                 <div>
-                    <button class="set-person-date btn btn-small btn-primary mr-2" data-index="${index}">Set</button>
+                    <button class="set-person-date btn btn-small btn-primary mr-2" data-index="${index}">View</button>
                     <button class="edit-person btn btn-small btn-secondary mr-2" data-index="${index}">Edit</button>
                     <button class="delete-person btn btn-small btn-danger" data-index="${index}">Delete</button>
                 </div>
