@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         window.location.href = 'people.html';
     });
 
+    const manageReasonsButton = document.getElementById('manageReasonsButton');
+    manageReasonsButton.addEventListener('click', function() {
+        window.location.href = 'reasons.html';
+    });
+
     exportButton.addEventListener('click', exportData);
     importButton.addEventListener('click', importData);
 
