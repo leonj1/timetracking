@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const manageTeamsButton = document.getElementById('manageTeamsButton');
     const managePeopleButton = document.getElementById('managePeopleButton');
     const activityGrid = document.getElementById('activityGrid');
@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
     managePeopleButton.addEventListener('click', function() {
         window.location.href = 'people.html';
     });
+
+    await fetchHolidays();
+    renderUpcomingHolidays();
 
     function createActivityGrids() {
         const people = JSON.parse(localStorage.getItem('people')) || [];
@@ -94,10 +97,37 @@ document.addEventListener('DOMContentLoaded', function() {
     renderUpcomingHolidays();
 });
 
+async function fetchHolidays() {
+    const countries = ['US', 'GB', 'IN', 'CR'];
+    const year = new Date().getFullYear();
+    const holidays = [];
+
+    for (const country of countries) {
+        try {
+            const response = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/${country}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            holidays.push(...data.map(holiday => ({
+                date: holiday.date,
+                name: holiday.name,
+                country: country
+            })));
+        } catch (error) {
+            console.error(`Error fetching holidays for ${country}:`, error);
+        }
+    }
+
+    localStorage.setItem('holidays', JSON.stringify(holidays));
+}
+
 function renderUpcomingHolidays() {
     const upcomingHolidaysContainer = document.getElementById('upcomingHolidays');
     const today = new Date();
     const sixMonthsLater = new Date(today.getFullYear(), today.getMonth() + 6, today.getDate());
+
+    const holidays = JSON.parse(localStorage.getItem('holidays')) || [];
 
     const upcomingHolidays = holidays.filter(holiday => {
         const holidayDate = new Date(holiday.date);
