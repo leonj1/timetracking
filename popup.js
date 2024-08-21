@@ -144,16 +144,26 @@ function renderUpcomingHolidays() {
         return holidayDate >= today && holidayDate <= sixMonthsLater;
     }).sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    const holidayList = upcomingHolidays.map(holiday => {
+    const holidayTable = upcomingHolidays.map(holiday => {
         const date = new Date(holiday.date);
         const formattedDate = `${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}`;
         const flag = getCountryFlag(holiday.country);
-        return `<li class="mb-2 flex items-center">
-            <span class="w-6">${flag}</span>
-            <span class="font-semibold w-20 text-center">${formattedDate}</span>
-            <span>${holiday.name} (${holiday.country})</span>
-        </li>`;
+        return `<tr>
+            <td class="text-center w-8">${flag}</td>
+            <td class="text-left w-24">${formattedDate}</td>
+            <td class="text-center">${holiday.name} (${holiday.country})</td>
+        </tr>`;
     }).join('');
 
-    upcomingHolidaysContainer.innerHTML = `<ul class="list-disc pl-5">${holidayList}</ul>`;
+    upcomingHolidaysContainer.innerHTML = `
+        <table class="w-full">
+            <thead>
+                <tr>
+                    <th class="w-8"></th>
+                    <th class="w-24 text-left">Date</th>
+                    <th class="text-center">Holiday</th>
+                </tr>
+            </thead>
+            <tbody>${holidayTable}</tbody>
+        </table>`;
 }
