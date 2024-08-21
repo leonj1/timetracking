@@ -17,12 +17,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const activityGridContainer = document.getElementById('activityGridContainer');
         activityGridContainer.innerHTML = '';
 
-        // Collect all years with activities
+        const currentYear = new Date().getFullYear();
+        const relevantYears = [currentYear - 1, currentYear, currentYear + 1];
+
+        // Collect relevant years with activities
         people.forEach(person => {
             (person.activities || []).forEach(activity => {
                 if (activity.startDate) {
                     const startDate = new Date(activity.startDate);
-                    activityYears.add(startDate.getFullYear());
+                    const year = startDate.getFullYear();
+                    if (relevantYears.includes(year)) {
+                        activityYears.add(year);
+                    }
                 }
             });
         });
