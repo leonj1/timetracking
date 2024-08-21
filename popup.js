@@ -53,14 +53,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const maxActivity = Math.max(...monthlyActivity);
 
             const gridContainer = document.createElement('div');
-            gridContainer.className = 'mb-4';
+            gridContainer.className = 'mb-4 flex items-center';
             const yearLabel = document.createElement('div');
-            yearLabel.className = 'text-sm text-gray-600 mb-1';
+            yearLabel.className = 'text-sm text-gray-600 mr-2';
             yearLabel.textContent = year;
             gridContainer.appendChild(yearLabel);
 
             const grid = document.createElement('div');
-            grid.className = 'grid grid-cols-12 gap-0';
+            grid.className = 'grid grid-cols-12 gap-0 flex-grow';
 
             for (let i = 0; i < 12; i++) {
                 const cell = document.createElement('div');
