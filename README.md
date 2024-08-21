@@ -1,6 +1,6 @@
 # Team Manager Extension
 
-<img src="hourglass.jpeg" alt="Hourglass" width="100" height="100">
+<img src="screenshot.png" alt="Team Manager Extension Screenshot" width="600">
 
 ## Purpose
 
