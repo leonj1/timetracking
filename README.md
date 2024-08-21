@@ -1,6 +1,6 @@
 # Team Manager Extension
 
-![Hourglass](hourglass.jpeg)
+<img src="hourglass.jpeg" alt="Hourglass" width="100" height="100">
 
 ## Purpose
 
