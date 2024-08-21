@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
   "name": "Team Manager Extension",
-  "version": "1.1",
-  "description": "An extension to manage teams and say Hello.",
+  "version": "1.2",
+  "description": "An extension to manage teams, people, and activities with import/export functionality.",
   "action": {
     "default_popup": "popup.html"
   },
-  "permissions": ["storage"],
+  "permissions": ["storage", "unlimitedStorage"],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },

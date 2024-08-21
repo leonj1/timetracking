@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', async function() {
     const manageTeamsButton = document.getElementById('manageTeamsButton');
     const managePeopleButton = document.getElementById('managePeopleButton');
+    const exportButton = document.getElementById('exportButton');
+    const importButton = document.getElementById('importButton');
     const activityGrid = document.getElementById('activityGrid');
 
     manageTeamsButton.addEventListener('click', function() {
@@ -11,8 +13,52 @@ document.addEventListener('DOMContentLoaded', async function() {
         window.location.href = 'people.html';
     });
 
+    exportButton.addEventListener('click', exportData);
+    importButton.addEventListener('click', importData);
+
     await fetchHolidays();
     renderUpcomingHolidays();
+
+    function exportData() {
+        const data = {
+            people: JSON.parse(localStorage.getItem('people') || '[]'),
+            teams: JSON.parse(localStorage.getItem('teams') || '[]'),
+            holidays: JSON.parse(localStorage.getItem('holidays') || '[]')
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'team_manager_data.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function importData() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = (event) => {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    localStorage.setItem('people', JSON.stringify(data.people || []));
+                    localStorage.setItem('teams', JSON.stringify(data.teams || []));
+                    localStorage.setItem('holidays', JSON.stringify(data.holidays || []));
+                    alert('Data imported successfully!');
+                    location.reload();
+                } catch (error) {
+                    alert('Error importing data. Please check the file format.');
+                }
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    }
 
     function createActivityGrids() {
         const people = JSON.parse(localStorage.getItem('people')) || [];
