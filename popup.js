@@ -11,41 +11,69 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'people.html';
     });
 
-    function createActivityGrid() {
-        const currentYear = new Date().getFullYear();
+    function createActivityGrids() {
         const people = JSON.parse(localStorage.getItem('people')) || [];
-        const monthlyActivity = new Array(12).fill(0);
+        const activityYears = new Set();
+        const activityGridContainer = document.getElementById('activityGridContainer');
+        activityGridContainer.innerHTML = '';
 
+        // Collect all years with activities
         people.forEach(person => {
             (person.activities || []).forEach(activity => {
                 if (activity.startDate) {
                     const startDate = new Date(activity.startDate);
-                    if (startDate.getFullYear() === currentYear) {
-                        monthlyActivity[startDate.getMonth()]++;
-                    }
+                    activityYears.add(startDate.getFullYear());
                 }
             });
         });
 
-        const maxActivity = Math.max(...monthlyActivity);
+        // Sort years in ascending order
+        const sortedYears = Array.from(activityYears).sort((a, b) => a - b);
 
-        for (let i = 0; i < 12; i++) {
-            const cell = document.createElement('div');
-            cell.className = 'h-8 rounded cursor-pointer';
-            const intensity = monthlyActivity[i] / maxActivity;
-            const color = getColorForIntensity(intensity);
-            cell.style.backgroundColor = color;
-            cell.title = `${monthlyActivity[i]} activities in ${new Date(currentYear, i).toLocaleString('default', { month: 'long' })}`;
-            cell.dataset.month = i;
-            cell.addEventListener('click', () => {
-                window.location.href = `activity_details.html?month=${i}&year=${currentYear}`;
+        sortedYears.forEach(year => {
+            const monthlyActivity = new Array(12).fill(0);
+
+            people.forEach(person => {
+                (person.activities || []).forEach(activity => {
+                    if (activity.startDate) {
+                        const startDate = new Date(activity.startDate);
+                        if (startDate.getFullYear() === year) {
+                            monthlyActivity[startDate.getMonth()]++;
+                        }
+                    }
+                });
             });
-            activityGrid.appendChild(cell);
-        }
 
-        // Add year label
-        const yearLabel = document.getElementById('yearLabel');
-        yearLabel.textContent = currentYear;
+            const maxActivity = Math.max(...monthlyActivity);
+
+            const gridContainer = document.createElement('div');
+            gridContainer.className = 'mb-4';
+            const yearLabel = document.createElement('div');
+            yearLabel.className = 'text-sm text-gray-600 mb-1';
+            yearLabel.textContent = year;
+            gridContainer.appendChild(yearLabel);
+
+            const grid = document.createElement('div');
+            grid.className = 'grid grid-cols-12 gap-0';
+
+            for (let i = 0; i < 12; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'h-8 w-8 rounded cursor-pointer';
+                const intensity = monthlyActivity[i] / maxActivity;
+                const color = getColorForIntensity(intensity);
+                cell.style.backgroundColor = color;
+                cell.title = `${monthlyActivity[i]} activities in ${new Date(year, i).toLocaleString('default', { month: 'long' })} ${year}`;
+                cell.dataset.month = i;
+                cell.dataset.year = year;
+                cell.addEventListener('click', () => {
+                    window.location.href = `activity_details.html?month=${i}&year=${year}`;
+                });
+                grid.appendChild(cell);
+            }
+
+            gridContainer.appendChild(grid);
+            activityGridContainer.appendChild(gridContainer);
+        });
     }
 
     function getColorForIntensity(intensity) {
@@ -55,5 +83,5 @@ document.addEventListener('DOMContentLoaded', function() {
         return `rgb(${r}, ${g}, ${b})`;
     }
 
-    createActivityGrid();
+    createActivityGrids();
 });
