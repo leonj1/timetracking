@@ -82,8 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function renderActivitySummary() {
     const summaryYearSelect = document.getElementById('summaryYear');
-    const currentYear = new Date().getFullYear();
-    const selectedYear = summaryYearSelect.value === 'current' ? currentYear : currentYear - 1;
+    const selectedYear = parseInt(summaryYearSelect.value);
     
     const activitySummary = {};
 
