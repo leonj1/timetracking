@@ -7,27 +7,27 @@
 }
 
 .btn-primary {
-    @apply bg-blue-500 text-white;
+    @apply bg-blue-500 text-white dark:bg-blue-600 dark:text-gray-200;
 }
 
 .btn-primary:hover {
-    @apply bg-blue-600;
+    @apply bg-blue-600 dark:bg-blue-700;
 }
 
 .btn-secondary {
-    @apply bg-gray-300 text-gray-800;
+    @apply bg-gray-300 text-gray-800 dark:bg-gray-600 dark:text-gray-200;
 }
 
 .btn-secondary:hover {
-    @apply bg-gray-400;
+    @apply bg-gray-400 dark:bg-gray-700;
 }
 
 .btn-danger {
-    @apply bg-red-500 text-white;
+    @apply bg-red-500 text-white dark:bg-red-600 dark:text-gray-200;
 }
 
 .btn-danger:hover {
-    @apply bg-red-600;
+    @apply bg-red-600 dark:bg-red-700;
 }
 
 .btn-small {
@@ -43,5 +43,22 @@ body {
     width: 11px;
     height: 11px;
     margin: 1px;
+}
+
+/* Dark mode styles */
+.dark body {
+    @apply bg-gray-900 text-gray-100;
+}
+
+.dark .bg-white {
+    @apply bg-gray-800;
+}
+
+.dark .text-gray-900 {
+    @apply text-gray-100;
+}
+
+.dark .shadow-md {
+    @apply shadow-gray-700;
 }
 

@@ -3,7 +3,28 @@ document.addEventListener('DOMContentLoaded', async function() {
     const managePeopleButton = document.getElementById('managePeopleButton');
     const exportButton = document.getElementById('exportButton');
     const importButton = document.getElementById('importButton');
+    const themeToggle = document.getElementById('themeToggle');
     const activityGrid = document.getElementById('activityGrid');
+
+    // Theme toggle functionality
+    function setTheme(isDark) {
+        if (isDark) {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    // Check for saved theme preference or default to light theme
+    const savedTheme = localStorage.getItem('theme');
+    setTheme(savedTheme === 'dark');
+
+    themeToggle.addEventListener('click', function() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        setTheme(isDark);
+    });
 
     manageTeamsButton.addEventListener('click', function() {
         window.location.href = 'teams.html';
