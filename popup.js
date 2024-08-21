@@ -54,10 +54,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const gridContainer = document.createElement('div');
             gridContainer.className = 'mb-4 flex items-center';
-            const yearLabel = document.createElement('div');
-            yearLabel.className = 'text-sm text-gray-600 mr-2';
-            yearLabel.textContent = year;
-            gridContainer.appendChild(yearLabel);
+            const yearLink = document.createElement('a');
+            yearLink.className = 'text-sm text-blue-600 mr-2 hover:underline';
+            yearLink.textContent = year;
+            yearLink.href = `yearly_activities.html?year=${year}`;
+            gridContainer.appendChild(yearLink);
 
             const grid = document.createElement('div');
             grid.className = 'grid grid-cols-12 gap-0 flex-grow';
