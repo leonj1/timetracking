@@ -151,7 +151,7 @@ function renderUpcomingHolidays() {
         return `<tr>
             <td class="text-center w-8">${flag}</td>
             <td class="text-left w-24">${formattedDate}</td>
-            <td class="text-center">${holiday.name} (${holiday.country})</td>
+            <td class="text-left">${holiday.name} (${holiday.country})</td>
         </tr>`;
     }).join('');
 
