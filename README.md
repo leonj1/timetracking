@@ -1,6 +1,6 @@
 # Team Manager Extension
 
-<img src="screenshot.png" alt="Team Manager Extension Screenshot" width="600">
+<img src="screenshot.png" alt="Team Manager Extension Screenshot" width="300">
 
 ## Purpose
 
