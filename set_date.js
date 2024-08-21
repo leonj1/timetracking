@@ -58,12 +58,13 @@ function renderActivitySummary() {
     const activitySummary = {};
 
     person.activities.forEach(activity => {
-        const activityYear = new Date(activity.startDate).getFullYear();
-        if (activityYear === selectedYear) {
+        const startDate = new Date(activity.startDate);
+        const endDate = activity.endDate ? new Date(activity.endDate) : startDate;
+        if (startDate.getFullYear() === selectedYear || endDate.getFullYear() === selectedYear) {
             if (!activitySummary[activity.reason]) {
                 activitySummary[activity.reason] = 0;
             }
-            activitySummary[activity.reason] += calculateDays(activity);
+            activitySummary[activity.reason] += calculateDaysInYear(activity, selectedYear);
         }
     });
 
@@ -73,13 +74,35 @@ function renderActivitySummary() {
     const activitySummaryTable = document.getElementById('activitySummaryTable').getElementsByTagName('tbody')[0];
     activitySummaryTable.innerHTML = '';
 
+    let totalDays = 0;
     sortedSummary.forEach(([reason, days]) => {
         const row = activitySummaryTable.insertRow();
         const daysCell = row.insertCell(0);
         const reasonCell = row.insertCell(1);
         daysCell.textContent = days;
         reasonCell.textContent = reason;
+        totalDays += days;
     });
+
+    // Add total row
+    const totalRow = activitySummaryTable.insertRow();
+    const totalDaysCell = totalRow.insertCell(0);
+    const totalLabelCell = totalRow.insertCell(1);
+    totalDaysCell.textContent = totalDays;
+    totalLabelCell.textContent = 'Total';
+    totalRow.classList.add('font-bold');
+}
+
+function calculateDaysInYear(activity, year) {
+    const startDate = new Date(activity.startDate);
+    const endDate = activity.endDate ? new Date(activity.endDate) : startDate;
+    const yearStart = new Date(year, 0, 1);
+    const yearEnd = new Date(year, 11, 31);
+
+    const effectiveStart = new Date(Math.max(startDate, yearStart));
+    const effectiveEnd = new Date(Math.min(endDate, yearEnd));
+
+    return Math.ceil((effectiveEnd - effectiveStart) / (1000 * 60 * 60 * 24)) + 1;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
