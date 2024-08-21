@@ -47,6 +47,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     populateSummaryYearSelect();
 
+    // Add event listener for summary year change
+    summaryYearSelect.addEventListener('change', renderActivitySummary);
+
     renderActivities();
     renderActivitySummary();
 });
@@ -57,16 +60,18 @@ function renderActivitySummary() {
     
     const activitySummary = {};
 
-    person.activities.forEach(activity => {
-        const startDate = new Date(activity.startDate);
-        const endDate = activity.endDate ? new Date(activity.endDate) : startDate;
-        if (startDate.getFullYear() === selectedYear || endDate.getFullYear() === selectedYear) {
-            if (!activitySummary[activity.reason]) {
-                activitySummary[activity.reason] = 0;
+    if (person && person.activities) {
+        person.activities.forEach(activity => {
+            const startDate = new Date(activity.startDate);
+            const endDate = activity.endDate ? new Date(activity.endDate) : startDate;
+            if (startDate.getFullYear() === selectedYear || endDate.getFullYear() === selectedYear) {
+                if (!activitySummary[activity.reason]) {
+                    activitySummary[activity.reason] = 0;
+                }
+                activitySummary[activity.reason] += calculateDaysInYear(activity, selectedYear);
             }
-            activitySummary[activity.reason] += calculateDaysInYear(activity, selectedYear);
-        }
-    });
+        });
+    }
 
     const sortedSummary = Object.entries(activitySummary)
         .sort((a, b) => b[1] - a[1]);
