@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
             activitiesList.innerHTML = '<p>No activities yet.</p>';
             return;
         }
+        person.activities.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
         person.activities.forEach((activity, index) => {
             const activityElement = document.createElement('div');
             activityElement.className = 'bg-white p-2 mb-2 rounded flex justify-between items-center';
