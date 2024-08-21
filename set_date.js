@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
-        const reason = document.getElementById('reason').value.trim();
+        const reason = document.getElementById('reason').value;
 
         if (!reason) {
             alert('Please enter a reason');
@@ -61,10 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
             reason: reason
         });
 
-        if (!reasons.includes(reason)) {
-            reasons.push(reason);
-            localStorage.setItem('reasons', JSON.stringify(reasons));
-        }
 
         localStorage.setItem('people', JSON.stringify(people));
 
@@ -79,22 +75,18 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
     });
 
-    // Autocomplete for reasons
-    const reasonInput = document.getElementById('reason');
-    reasonInput.addEventListener('input', function() {
-        const value = this.value.toLowerCase();
-        const matchingReasons = reasons.filter(r => r.toLowerCase().startsWith(value));
-        
-        // Create and show datalist
-        let datalist = document.getElementById('reasonSuggestions');
-        if (!datalist) {
-            datalist = document.createElement('datalist');
-            datalist.id = 'reasonSuggestions';
-            this.parentNode.appendChild(datalist);
-        }
-        datalist.innerHTML = matchingReasons.map(r => `<option value="${r}">`).join('');
-        this.setAttribute('list', 'reasonSuggestions');
-    });
+    // Populate reason dropdown
+    const reasonSelect = document.getElementById('reason');
+    function populateReasonSelect() {
+        reasonSelect.innerHTML = '<option value="">Select a reason</option>';
+        reasons.forEach((reason) => {
+            const option = document.createElement('option');
+            option.value = reason;
+            option.textContent = reason;
+            reasonSelect.appendChild(option);
+        });
+    }
+    populateReasonSelect();
 
     activitiesList.addEventListener('click', function(e) {
         if (e.target.classList.contains('delete-activity')) {
