@@ -1,5 +1,7 @@
 # Team Manager Extension
 
+![Hourglass](hourglass.jpeg)
+
 ## Purpose
 
 The Team Manager Extension is a browser extension designed to help teams manage their members' activities, time off, and holidays. It provides an easy-to-use interface for tracking and visualizing team activities across different time periods.
