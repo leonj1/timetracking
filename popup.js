@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     setTheme(savedTheme === 'dark');
 
     themeToggle.addEventListener('click', function() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        setTheme(isDark);
+        const isDark = document.documentElement.classList.contains('dark');
+        setTheme(!isDark);
     });
 
     manageTeamsButton.addEventListener('click', function() {
