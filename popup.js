@@ -42,6 +42,10 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             activityGrid.appendChild(cell);
         }
+
+        // Add year label
+        const yearLabel = document.getElementById('yearLabel');
+        yearLabel.textContent = currentYear;
     }
 
     function getColorForIntensity(intensity) {
