@@ -77,4 +77,38 @@ document.addEventListener('DOMContentLoaded', function() {
     populateReasonSelect();
 
     renderActivities();
+    renderActivitySummary();
 });
+
+function renderActivitySummary() {
+    const currentYear = new Date().getFullYear();
+    const activitySummary = {};
+
+    person.activities.forEach(activity => {
+        const activityYear = new Date(activity.startDate).getFullYear();
+        if (activityYear === currentYear) {
+            if (!activitySummary[activity.reason]) {
+                activitySummary[activity.reason] = 0;
+            }
+            activitySummary[activity.reason] += calculateDays(activity);
+        }
+    });
+
+    const sortedSummary = Object.entries(activitySummary)
+        .sort((a, b) => b[1] - a[1]);
+
+    const activitySummaryList = document.getElementById('activitySummaryList');
+    activitySummaryList.innerHTML = '';
+
+    sortedSummary.forEach(([reason, days]) => {
+        const li = document.createElement('li');
+        li.textContent = `${reason}: ${days} day${days !== 1 ? 's' : ''}`;
+        activitySummaryList.appendChild(li);
+    });
+}
+
+function calculateDays(activity) {
+    const startDate = new Date(activity.startDate);
+    const endDate = activity.endDate ? new Date(activity.endDate) : startDate;
+    return Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+}
