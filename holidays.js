@@ -1,6 +1,6 @@
 const holidays = [
     { date: '2024-08-15', name: 'Independence Day', country: 'India' },
-    { date: '2024-08-26', name: 'Women's Equality Day', country: 'United States' },
+    { date: '2024-08-26', name: 'Women\'s Equality Day', country: 'United States' },
     { date: '2024-08-26', name: 'Summer Bank Holiday', country: 'United Kingdom' },
     { date: '2024-09-02', name: 'Labor Day', country: 'United States' },
     { date: '2024-09-15', name: 'Independence Day', country: 'Costa Rica' },
