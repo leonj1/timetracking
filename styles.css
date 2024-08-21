@@ -39,7 +39,8 @@ body {
     min-height: 200px;
 }
 
-#activityGrid div {
+#activityGridContainer .grid div {
     width: 11px;
     height: 11px;
+    margin: 1px;
 }
