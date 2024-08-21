@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const personInfo = document.getElementById('personInfo');
     const activitiesList = document.getElementById('activitiesList');
     const activityForm = document.getElementById('activityForm');
+    const summaryYearSelect = document.getElementById('summaryYear');
 
     const urlParams = new URLSearchParams(window.location.search);
     const personIndex = urlParams.get('index');
@@ -49,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
             reason: reason
         });
 
-
         localStorage.setItem('people', JSON.stringify(people));
 
         renderActivities();
@@ -75,6 +75,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     populateReasonSelect();
+
+    // Populate summary year dropdown
+    function populateSummaryYearSelect() {
+        const currentYear = new Date().getFullYear();
+        for (let year = currentYear - 2; year <= currentYear + 2; year++) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            summaryYearSelect.appendChild(option);
+        }
+        summaryYearSelect.value = currentYear;
+    }
+    populateSummaryYearSelect();
 
     renderActivities();
     renderActivitySummary();
