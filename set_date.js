@@ -100,4 +100,25 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     renderActivities();
+
+    // Add event listener for delete buttons
+    activitiesTable.addEventListener('click', function(e) {
+        if (e.target.classList.contains('delete-activity')) {
+            const index = e.target.dataset.index;
+            if (confirm('Are you sure you want to delete this activity?')) {
+                const people = JSON.parse(localStorage.getItem('people')) || [];
+                const activity = activityData[index];
+                const person = people.find(p => p.name === activity.name && p.team === activity.team);
+                if (person) {
+                    person.activities = person.activities.filter(a => 
+                        a.startDate !== activity.startDate ||
+                        a.endDate !== activity.endDate ||
+                        a.reason !== activity.reason
+                    );
+                    localStorage.setItem('people', JSON.stringify(people));
+                    renderActivities();
+                }
+            }
+        }
+    });
 });
