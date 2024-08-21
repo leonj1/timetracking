@@ -91,4 +91,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     createActivityGrids();
+    renderUpcomingHolidays();
 });
+
+function renderUpcomingHolidays() {
+    const upcomingHolidaysContainer = document.getElementById('upcomingHolidays');
+    const today = new Date();
+    const sixMonthsLater = new Date(today.getFullYear(), today.getMonth() + 6, today.getDate());
+
+    const upcomingHolidays = holidays.filter(holiday => {
+        const holidayDate = new Date(holiday.date);
+        return holidayDate >= today && holidayDate <= sixMonthsLater;
+    }).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    const holidayList = upcomingHolidays.map(holiday => {
+        const date = new Date(holiday.date);
+        const formattedDate = `${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}`;
+        return `<li class="mb-2">
+            <span class="font-semibold">${formattedDate}</span> - ${holiday.name} (${holiday.country})
+        </li>`;
+    }).join('');
+
+    upcomingHolidaysContainer.innerHTML = `<ul class="list-disc pl-5">${holidayList}</ul>`;
+}
