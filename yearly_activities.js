@@ -41,10 +41,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 activity.reason || 'N/A'
             ];
 
-            cells.forEach((cellContent) => {
+            cells.forEach((cellContent, index) => {
                 const cell = row.insertCell();
                 cell.textContent = cellContent;
                 cell.classList.add('text-center', 'py-2', 'px-4');
+                if (index === 3 || index === 4) { // Start and End date columns
+                    cell.classList.add('whitespace-nowrap');
+                }
             });
         });
     }
