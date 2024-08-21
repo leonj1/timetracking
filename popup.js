@@ -104,14 +104,14 @@ async function fetchHolidays() {
 
     for (const country of countries) {
         try {
-            const response = await fetch(`https://openholidaysapi.org/PublicHolidays?countryIsoCode=${country}&languageIsoCode=EN&validFrom=${year}-01-01&validTo=${year}-12-31`);
+            const response = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/${country}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
             holidays.push(...data.map(holiday => ({
-                date: holiday.startDate,
-                name: holiday.name[0].text,
+                date: holiday.date,
+                name: holiday.name,
                 country: country
             })));
         } catch (error) {
