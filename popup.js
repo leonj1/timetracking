@@ -149,7 +149,7 @@ function renderUpcomingHolidays() {
         const formattedDate = `${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}`;
         const flag = getCountryFlag(holiday.country);
         return `<li class="mb-2">
-            <span class="font-semibold">${formattedDate}</span> - ${flag} ${holiday.name} (${holiday.country})
+            ${flag} <span class="font-semibold">${formattedDate}</span> - ${holiday.name} (${holiday.country})
         </li>`;
     }).join('');
 
