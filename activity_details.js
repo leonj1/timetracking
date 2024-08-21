@@ -48,14 +48,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 cell.classList.add('text-center');
             });
 
-            // Add edit button
-            const editCell = row.insertCell();
-            editCell.classList.add('text-center');
-            const editButton = document.createElement('button');
-            editButton.innerHTML = '✏️';
-            editButton.className = 'edit-activity btn btn-small btn-secondary';
-            editButton.dataset.index = index;
-            editCell.appendChild(editButton);
+            // Add delete button
+            const deleteCell = row.insertCell();
+            deleteCell.classList.add('text-center');
+            const deleteButton = document.createElement('button');
+            deleteButton.innerHTML = '🗑️';
+            deleteButton.className = 'delete-activity btn btn-small btn-danger';
+            deleteButton.dataset.index = index;
+            deleteCell.appendChild(deleteButton);
 
             function calculateDays(activity) {
                 const startDate = new Date(activity.startDate);
