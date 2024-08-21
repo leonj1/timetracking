@@ -159,7 +159,15 @@ async function fetchHolidays() {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const data = await response.json();
+            const text = await response.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (parseError) {
+                console.error(`Error parsing JSON for ${country}:`, parseError);
+                console.log('Response text:', text);
+                continue;
+            }
             holidays.push(...data.map(holiday => ({
                 date: holiday.date,
                 name: holiday.name,
