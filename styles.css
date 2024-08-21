@@ -45,17 +45,3 @@ body {
     margin: 1px;
 }
 
-#upcomingHolidays li {
-    display: flex;
-    align-items: center;
-}
-
-#upcomingHolidays li span:first-child {
-    margin-right: 5px;
-}
-
-#upcomingHolidays li span:nth-child(2) {
-    font-size: 11px;
-    line-height: 11px;
-    margin-right: 5px;
-}
