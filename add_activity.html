@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Activity</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 p-4 text-gray-900">
+    <div class="max-w-lg mx-auto">
+        <button id="backButton" class="btn btn-secondary mb-4">Back to Manage Activities</button>
+        <h1 class="text-2xl font-bold mb-4">Add Activity</h1>
+        <div id="personInfo" class="mb-4"></div>
+        <form id="activityForm" class="bg-white p-4 rounded shadow">
+            <div class="mb-4">
+                <label for="startDate" class="block mb-2">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" class="w-full p-2 border rounded" required>
+            </div>
+            <div class="mb-4">
+                <label for="endDate" class="block mb-2">End Date (optional):</label>
+                <input type="date" id="endDate" name="endDate" class="w-full p-2 border rounded">
+            </div>
+            <div class="mb-4">
+                <label for="reason" class="block mb-2">Reason:</label>
+                <select id="reason" name="reason" class="w-full p-2 border rounded" required>
+                    <option value="">Select a reason</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-full">Add Activity</button>
+        </form>
+    </div>
+    <script src="add_activity.js"></script>
+</body>
+</html>

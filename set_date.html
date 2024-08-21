@@ -12,32 +12,21 @@
         <button id="backButton" class="btn btn-secondary mb-4">Back to People</button>
         <h1 class="text-2xl font-bold mb-4">Manage Activities for Person</h1>
         <div id="personInfo" class="mb-4"></div>
-        <div class="mb-4">
-            <button id="viewActivitiesButton" class="btn btn-secondary">
+        <div class="mb-4 flex">
+            <button id="viewActivitiesButton" class="btn btn-secondary mr-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                     <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
                 </svg>
                 View Activities
             </button>
+            <button id="addActivityButton" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                </svg>
+                Add Activity
+            </button>
         </div>
-        <form id="activityForm" class="bg-white p-4 rounded shadow">
-            <div class="mb-4">
-                <label for="startDate" class="block mb-2">Start Date:</label>
-                <input type="date" id="startDate" name="startDate" class="w-full p-2 border rounded" required>
-            </div>
-            <div class="mb-4">
-                <label for="endDate" class="block mb-2">End Date (optional):</label>
-                <input type="date" id="endDate" name="endDate" class="w-full p-2 border rounded">
-            </div>
-            <div class="mb-4">
-                <label for="reason" class="block mb-2">Reason:</label>
-                <select id="reason" name="reason" class="w-full p-2 border rounded" required>
-                    <option value="">Select a reason</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary w-full">Add Activity</button>
-        </form>
         <div id="activitySummary" class="mt-4 bg-white p-4 rounded shadow">
             <h2 class="text-xl font-bold mb-2">Activity Summary</h2>
             <select id="summaryYear" class="w-full p-2 mb-2 border rounded">
