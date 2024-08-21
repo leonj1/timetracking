@@ -81,12 +81,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function renderActivitySummary() {
+    const summaryYearSelect = document.getElementById('summaryYear');
     const currentYear = new Date().getFullYear();
+    const selectedYear = summaryYearSelect.value === 'current' ? currentYear : currentYear - 1;
+    
     const activitySummary = {};
 
     person.activities.forEach(activity => {
         const activityYear = new Date(activity.startDate).getFullYear();
-        if (activityYear === currentYear) {
+        if (activityYear === selectedYear) {
             if (!activitySummary[activity.reason]) {
                 activitySummary[activity.reason] = 0;
             }
@@ -97,15 +100,26 @@ function renderActivitySummary() {
     const sortedSummary = Object.entries(activitySummary)
         .sort((a, b) => b[1] - a[1]);
 
-    const activitySummaryList = document.getElementById('activitySummaryList');
-    activitySummaryList.innerHTML = '';
+    const activitySummaryTable = document.getElementById('activitySummaryTable').getElementsByTagName('tbody')[0];
+    activitySummaryTable.innerHTML = '';
 
     sortedSummary.forEach(([reason, days]) => {
-        const li = document.createElement('li');
-        li.textContent = `${reason}: ${days} day${days !== 1 ? 's' : ''}`;
-        activitySummaryList.appendChild(li);
+        const row = activitySummaryTable.insertRow();
+        const daysCell = row.insertCell(0);
+        const reasonCell = row.insertCell(1);
+        daysCell.textContent = days;
+        reasonCell.textContent = reason;
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ... (existing code)
+
+    const summaryYearSelect = document.getElementById('summaryYear');
+    summaryYearSelect.addEventListener('change', renderActivitySummary);
+
+    // ... (existing code)
+});
 
 function calculateDays(activity) {
     const startDate = new Date(activity.startDate);
