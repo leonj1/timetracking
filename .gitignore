@@ -1,1 +1,46 @@
 .aider*
+
+# Node.js dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Temporary files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+
+# Chrome extension specific
+*.pem
+*.crx
+
+# Environment variables
+.env
+
+# Compiled JavaScript
+*.min.js
+
+# Compiled CSS
+*.min.css
+
+# Package manager lock files
+package-lock.json
+yarn.lock
+
+# Test coverage reports
+coverage/
+
+# Miscellaneous
+*.bak
+*.cache
+*.zip
