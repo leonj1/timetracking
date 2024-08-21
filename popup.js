@@ -125,13 +125,17 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const intensity = monthlyActivityPeople[i].size / maxActivity;
                 const color = getColorForIntensity(intensity);
                 cell.style.backgroundColor = color;
-                const peopleNames = Array.from(monthlyActivityPeople[i]).sort().join(', ');
-                cell.title = `${peopleNames} in ${new Date(year, i).toLocaleString('default', { month: 'long' })} ${year}`;
+                const peopleNames = Array.from(monthlyActivityPeople[i]).sort();
+                const monthName = new Date(year, i).toLocaleString('default', { month: 'long' });
                 cell.dataset.month = i;
                 cell.dataset.year = year;
                 cell.addEventListener('click', () => {
                     window.location.href = `activity_details.html?month=${i}&year=${year}`;
                 });
+                cell.addEventListener('mouseover', (event) => {
+                    showModal(event, peopleNames, monthName, year);
+                });
+                cell.addEventListener('mouseout', hideModal);
                 grid.appendChild(cell);
             }
 
@@ -150,6 +154,36 @@ document.addEventListener('DOMContentLoaded', async function() {
     createActivityGrids();
     renderUpcomingHolidays();
 });
+
+function showModal(event, peopleNames, monthName, year) {
+    const modal = document.createElement('div');
+    modal.className = 'fixed bg-white border border-gray-300 rounded p-2 shadow-lg z-50';
+    modal.style.left = `${event.pageX + 10}px`;
+    modal.style.top = `${event.pageY + 10}px`;
+    
+    const title = document.createElement('h3');
+    title.className = 'font-bold mb-2';
+    title.textContent = `${monthName} ${year}`;
+    modal.appendChild(title);
+
+    const list = document.createElement('ul');
+    list.className = 'list-disc pl-5';
+    peopleNames.forEach(name => {
+        const item = document.createElement('li');
+        item.textContent = name;
+        list.appendChild(item);
+    });
+    modal.appendChild(list);
+
+    document.body.appendChild(modal);
+}
+
+function hideModal() {
+    const modal = document.querySelector('.fixed.bg-white');
+    if (modal) {
+        modal.remove();
+    }
+}
 
 async function fetchHolidays() {
     const countries = ['US', 'GB', 'IN', 'CR'];
