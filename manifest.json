@@ -5,7 +5,9 @@
   "description": "An extension to manage teams, people, and activities with import/export functionality.",
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "hourglass.jpeg"
+    "default_icon": {
+      "128": "hourglass128x128.png"
+    }
   },
   "permissions": ["storage", "unlimitedStorage"],
   "content_security_policy": {
