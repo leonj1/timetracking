@@ -122,6 +122,16 @@ async function fetchHolidays() {
     localStorage.setItem('holidays', JSON.stringify(holidays));
 }
 
+function getCountryFlag(country) {
+    const flags = {
+        'US': '🇺🇸',
+        'GB': '🇬🇧',
+        'IN': '🇮🇳',
+        'CR': '🇨🇷'
+    };
+    return flags[country] || '';
+}
+
 function renderUpcomingHolidays() {
     const upcomingHolidaysContainer = document.getElementById('upcomingHolidays');
     const today = new Date();
@@ -137,8 +147,9 @@ function renderUpcomingHolidays() {
     const holidayList = upcomingHolidays.map(holiday => {
         const date = new Date(holiday.date);
         const formattedDate = `${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}`;
+        const flag = getCountryFlag(holiday.country);
         return `<li class="mb-2">
-            <span class="font-semibold">${formattedDate}</span> - ${holiday.name} (${holiday.country})
+            <span class="font-semibold">${formattedDate}</span> - ${flag} ${holiday.name} (${holiday.country})
         </li>`;
     }).join('');
 
