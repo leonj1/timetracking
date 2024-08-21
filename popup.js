@@ -93,18 +93,20 @@ document.addEventListener('DOMContentLoaded', async function() {
         sortedYears.forEach(year => {
             const monthlyActivity = new Array(12).fill(0);
 
+            const monthlyActivityPeople = new Array(12).fill().map(() => new Set());
+
             people.forEach(person => {
                 (person.activities || []).forEach(activity => {
                     if (activity.startDate) {
                         const startDate = new Date(activity.startDate);
                         if (startDate.getFullYear() === year) {
-                            monthlyActivity[startDate.getMonth()]++;
+                            monthlyActivityPeople[startDate.getMonth()].add(person.name);
                         }
                     }
                 });
             });
 
-            const maxActivity = Math.max(...monthlyActivity);
+            const maxActivity = Math.max(...monthlyActivityPeople.map(set => set.size));
 
             const gridContainer = document.createElement('div');
             gridContainer.className = 'mb-4 flex items-center';
@@ -120,10 +122,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             for (let i = 0; i < 12; i++) {
                 const cell = document.createElement('div');
                 cell.className = 'h-8 w-8 rounded cursor-pointer';
-                const intensity = monthlyActivity[i] / maxActivity;
+                const intensity = monthlyActivityPeople[i].size / maxActivity;
                 const color = getColorForIntensity(intensity);
                 cell.style.backgroundColor = color;
-                cell.title = `${monthlyActivity[i]} activities in ${new Date(year, i).toLocaleString('default', { month: 'long' })} ${year}`;
+                const peopleNames = Array.from(monthlyActivityPeople[i]).sort().join(', ');
+                cell.title = `${peopleNames} in ${new Date(year, i).toLocaleString('default', { month: 'long' })} ${year}`;
                 cell.dataset.month = i;
                 cell.dataset.year = year;
                 cell.addEventListener('click', () => {
