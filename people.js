@@ -10,7 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let teams = JSON.parse(localStorage.getItem('teams')) || [];
 
     showAddPersonFormButton.addEventListener('click', function() {
-        addPersonForm.classList.toggle('hidden');
+        addPersonForm.classList.remove('hidden');
+        showAddPersonFormButton.classList.add('hidden');
+    });
+
+    const hideAddPersonFormButton = document.getElementById('hideAddPersonFormButton');
+    hideAddPersonFormButton.addEventListener('click', function() {
+        addPersonForm.classList.add('hidden');
+        showAddPersonFormButton.classList.remove('hidden');
     });
 
     function renderPeople() {
