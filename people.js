@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const backButton = document.getElementById('backButton');
     const peopleList = document.getElementById('peopleList');
     const addPersonButton = document.getElementById('addPersonButton');
+    const editPersonTemplate = document.getElementById('edit-person-template');
 
     let people = JSON.parse(localStorage.getItem('people')) || [];
     let teams = JSON.parse(localStorage.getItem('teams')) || [];
@@ -30,17 +31,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const personNameInput = document.getElementById('personName');
     const teamSelect = document.getElementById('teamSelect');
 
-    function populateTeamSelect() {
-        teamSelect.innerHTML = '<option value="">Select a team</option>';
-        teams.forEach((team, index) => {
+    function populateTeamSelect(selectElement) {
+        selectElement.innerHTML = '<option value="">Select a team</option>';
+        teams.forEach((team) => {
             const option = document.createElement('option');
             option.value = team;
             option.textContent = team;
-            teamSelect.appendChild(option);
+            selectElement.appendChild(option);
         });
     }
 
-    function addOrEditPerson(personToEdit = null) {
+    function addPerson() {
         const name = personNameInput.value.trim();
         const selectedTeam = teamSelect.value;
 
@@ -49,12 +50,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (personToEdit) {
-            personToEdit.name = name;
-            personToEdit.team = selectedTeam;
-        } else {
-            people.push({ name, team: selectedTeam });
-        }
+        const newPerson = { 
+            id: Date.now().toString(), 
+            name, 
+            team: selectedTeam 
+        };
+        people.push(newPerson);
 
         savePeople();
         renderPeople();
@@ -62,15 +63,53 @@ document.addEventListener('DOMContentLoaded', function() {
         teamSelect.value = '';
     }
 
+    function showEditPersonPage(index) {
+        const person = people[index];
+        const editPage = editPersonTemplate.content.cloneNode(true);
+        
+        const nameInput = editPage.querySelector('#editPersonName');
+        const teamSelect = editPage.querySelector('#editPersonTeam');
+        const form = editPage.querySelector('#editPersonForm');
+        
+        nameInput.value = person.name;
+        populateTeamSelect(teamSelect);
+        teamSelect.value = person.team;
+        
+        form.dataset.personIndex = index;
+        
+        document.body.innerHTML = '';
+        document.body.appendChild(editPage);
+    }
+
+    function saveEditedPerson(event) {
+        event.preventDefault();
+        const form = event.target;
+        const index = parseInt(form.dataset.personIndex);
+        const nameInput = form.querySelector('#editPersonName');
+        const teamSelect = form.querySelector('#editPersonTeam');
+        
+        const name = nameInput.value.trim();
+        const selectedTeam = teamSelect.value;
+
+        if (!name || !selectedTeam) {
+            alert('Please enter a name and select a team');
+            return;
+        }
+
+        people[index].name = name;
+        people[index].team = selectedTeam;
+
+        savePeople();
+        window.location.reload();
+    }
+
     backButton.addEventListener('click', function() {
         window.location.href = 'popup.html';
     });
 
-    addPersonButton.addEventListener('click', function() {
-        addOrEditPerson();
-    });
+    addPersonButton.addEventListener('click', addPerson);
 
-    populateTeamSelect();
+    populateTeamSelect(teamSelect);
 
     peopleList.addEventListener('click', function(e) {
         if (e.target.classList.contains('set-person-date')) {
@@ -78,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = `set_date.html?index=${index}`;
         } else if (e.target.classList.contains('edit-person')) {
             const index = e.target.dataset.index;
-            addOrEditPerson(people[index]);
+            showEditPersonPage(index);
         } else if (e.target.classList.contains('delete-person')) {
             const index = e.target.dataset.index;
             if (confirm('Are you sure you want to delete this person?')) {
@@ -86,6 +125,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 savePeople();
                 renderPeople();
             }
+        }
+    });
+
+    document.addEventListener('submit', function(e) {
+        if (e.target.id === 'editPersonForm') {
+            saveEditedPerson(e);
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+        if (e.target.id === 'cancelEditPerson') {
+            window.location.reload();
         }
     });
 
