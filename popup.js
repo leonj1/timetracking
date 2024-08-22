@@ -328,6 +328,7 @@ async function fetchHolidays() {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const text = await response.text();
+            log(`Response for ${country}: ${text}`);
             let data;
             try {
                 data = JSON.parse(text);
@@ -336,16 +337,21 @@ async function fetchHolidays() {
                 console.log('Response text:', text);
                 continue;
             }
-            holidays.push(...data.map(holiday => ({
-                date: holiday.date,
-                name: holiday.name,
-                country: country
-            })));
+            if (Array.isArray(data)) {
+                holidays.push(...data.map(holiday => ({
+                    date: holiday.date,
+                    name: holiday.name,
+                    country: country
+                })));
+            } else {
+                console.error(`Unexpected data format for ${country}:`, data);
+            }
         } catch (error) {
             console.error(`Error fetching holidays for ${country}:`, error);
         }
     }
 
+    log(`Total holidays fetched: ${holidays.length}`);
     localStorage.setItem('holidays', JSON.stringify(holidays));
 }
 
