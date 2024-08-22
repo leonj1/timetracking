@@ -52,3 +52,25 @@
     <script src="popup.js"></script>
 </body>
 </html>
+
+<!-- New page for editing a person -->
+<template id="edit-person-template">
+    <div class="edit-person-page">
+        <h2 class="text-xl font-bold mb-4">Edit Person</h2>
+        <form id="editPersonForm">
+            <div class="mb-4">
+                <label for="editPersonName" class="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" id="editPersonName" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </div>
+            <div class="mb-4">
+                <label for="editPersonTeam" class="block text-sm font-medium text-gray-700">Team</label>
+                <select id="editPersonTeam" name="team" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                </select>
+            </div>
+            <div class="flex justify-between">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="button" id="cancelEditPerson" class="btn btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</template>

@@ -29,6 +29,30 @@ document.addEventListener('DOMContentLoaded', async function() {
     await fetchHolidays();
     renderUpcomingHolidays();
 
+    // Add event listener for edit person links
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('edit-person')) {
+            e.preventDefault();
+            const personId = e.target.dataset.id;
+            showEditPersonPage(personId);
+        }
+    });
+
+    // Add event listener for cancel edit person button
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.id === 'cancelEditPerson') {
+            hideEditPersonPage();
+        }
+    });
+
+    // Add event listener for edit person form submission
+    document.addEventListener('submit', function(e) {
+        if (e.target && e.target.id === 'editPersonForm') {
+            e.preventDefault();
+            saveEditedPerson();
+        }
+    });
+
     function exportData() {
         log('Exporting data');
         const data = {
@@ -193,6 +217,65 @@ function hideModal() {
     const modal = document.querySelector('.fixed.bg-white');
     if (modal) {
         modal.remove();
+    }
+}
+
+function showEditPersonPage(personId) {
+    const people = JSON.parse(localStorage.getItem('people')) || [];
+    const person = people.find(p => p.id === personId);
+    if (!person) return;
+
+    const template = document.getElementById('edit-person-template');
+    const editPage = template.content.cloneNode(true);
+
+    const nameInput = editPage.querySelector('#editPersonName');
+    const teamSelect = editPage.querySelector('#editPersonTeam');
+
+    nameInput.value = person.name;
+
+    // Populate team options
+    const teams = JSON.parse(localStorage.getItem('teams')) || [];
+    teams.forEach(team => {
+        const option = document.createElement('option');
+        option.value = team;
+        option.textContent = team;
+        if (team === person.team) {
+            option.selected = true;
+        }
+        teamSelect.appendChild(option);
+    });
+
+    // Set person ID as a data attribute on the form
+    const form = editPage.querySelector('#editPersonForm');
+    form.dataset.personId = personId;
+
+    // Replace main content with edit page
+    const main = document.querySelector('main');
+    main.innerHTML = '';
+    main.appendChild(editPage);
+}
+
+function hideEditPersonPage() {
+    window.location.href = 'people.html';
+}
+
+function saveEditedPerson() {
+    const form = document.getElementById('editPersonForm');
+    const personId = form.dataset.personId;
+    const newName = document.getElementById('editPersonName').value;
+    const newTeam = document.getElementById('editPersonTeam').value;
+
+    const people = JSON.parse(localStorage.getItem('people')) || [];
+    const personIndex = people.findIndex(p => p.id === personId);
+
+    if (personIndex !== -1) {
+        people[personIndex].name = newName;
+        people[personIndex].team = newTeam;
+        localStorage.setItem('people', JSON.stringify(people));
+        alert('Person updated successfully!');
+        window.location.href = 'people.html';
+    } else {
+        alert('Error: Person not found');
     }
 }
 
