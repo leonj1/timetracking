@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.classList.contains('delete-activity')) {
             const index = e.target.dataset.index;
             if (confirm('Are you sure you want to delete this activity?')) {
+                alert('Deleting');
                 showBanner('Deleting...');
                 setTimeout(() => {
                     person.activities.splice(index, 1);
