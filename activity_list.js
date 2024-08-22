@@ -17,6 +17,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     personInfo.textContent = `Activities for: ${person.name} (${person.team})`;
 
+    function showBanner(message) {
+        const banner = document.createElement('div');
+        banner.textContent = message;
+        banner.className = 'fixed top-0 left-0 right-0 bg-blue-500 text-white p-2 text-center';
+        document.body.prepend(banner);
+        setTimeout(() => {
+            banner.remove();
+        }, 3000);
+    }
+
     function renderActivities() {
         activitiesList.innerHTML = '';
         if (!person.activities || person.activities.length === 0) {
@@ -48,9 +58,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.classList.contains('delete-activity')) {
             const index = e.target.dataset.index;
             if (confirm('Are you sure you want to delete this activity?')) {
-                person.activities.splice(index, 1);
-                localStorage.setItem('people', JSON.stringify(people));
-                renderActivities();
+                showBanner('Deleting...');
+                setTimeout(() => {
+                    person.activities.splice(index, 1);
+                    localStorage.setItem('people', JSON.stringify(people));
+                    renderActivities();
+                }, 500);
             }
         }
     });
