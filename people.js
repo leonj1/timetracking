@@ -2,10 +2,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const backButton = document.getElementById('backButton');
     const peopleList = document.getElementById('peopleList');
     const addPersonButton = document.getElementById('addPersonButton');
+    const showAddPersonFormButton = document.getElementById('showAddPersonFormButton');
+    const addPersonForm = document.getElementById('addPersonForm');
     const editPersonTemplate = document.getElementById('edit-person-template');
 
     let people = JSON.parse(localStorage.getItem('people')) || [];
     let teams = JSON.parse(localStorage.getItem('teams')) || [];
+
+    showAddPersonFormButton.addEventListener('click', function() {
+        addPersonForm.classList.toggle('hidden');
+    });
 
     function renderPeople() {
         peopleList.innerHTML = '';
