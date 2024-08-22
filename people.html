@@ -9,12 +9,14 @@
 </head>
 <body class="bg-gray-100 p-4 text-gray-900">
     <div class="max-w-sm mx-auto">
-        <button id="backButton" class="btn btn-secondary mb-4">Back to Home</button>
+        <div class="flex justify-between items-center mb-4">
+            <button id="backButton" class="btn btn-secondary">Back to Home</button>
+            <button id="showAddPersonFormButton" class="btn btn-primary">
+                Add
+            </button>
+        </div>
         <h1 class="text-2xl font-bold mb-4">Manage People</h1>
         <div id="peopleList"></div>
-        <button id="showAddPersonFormButton" class="btn btn-primary fixed bottom-4 right-4">
-            Add
-        </button>
         <div id="addPersonForm" class="bg-white p-4 rounded shadow mt-4 hidden">
             <input type="text" id="personName" placeholder="Enter person name" class="w-full p-2 mb-2 border rounded">
             <select id="teamSelect" class="w-full p-2 mb-2 border rounded">
