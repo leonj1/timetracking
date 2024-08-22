@@ -178,6 +178,12 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const monthName = new Date(year, i).toLocaleString('default', { month: 'long' });
                 cell.dataset.month = i;
                 cell.dataset.year = year;
+
+                // Add border to current month in current year
+                const currentDate = new Date();
+                if (year === currentDate.getFullYear() && i === currentDate.getMonth()) {
+                    cell.style.border = '2px solid #000000';
+                }
                 cell.addEventListener('click', () => {
                     window.location.href = `activity_details.html?month=${i}&year=${year}`;
                 });
