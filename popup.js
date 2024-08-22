@@ -205,9 +205,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 function showModal(event, peopleNames, monthName, year) {
     const modal = document.createElement('div');
     modal.className = 'fixed bg-white border border-gray-300 rounded p-2 shadow-lg z-50';
-    modal.style.left = `${event.pageX + 10}px`;
-    modal.style.top = `${event.pageY + 10}px`;
     
+    document.body.appendChild(modal);
+
     const title = document.createElement('h3');
     title.className = 'font-bold mb-2';
     title.textContent = `${monthName} ${year}`;
@@ -222,7 +222,23 @@ function showModal(event, peopleNames, monthName, year) {
     });
     modal.appendChild(list);
 
-    document.body.appendChild(modal);
+    const rect = modal.getBoundingClientRect();
+    const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    let left = event.pageX + 10;
+    let top = event.pageY + 10;
+
+    if (left + rect.width > viewportWidth) {
+        left = viewportWidth - rect.width - 10;
+    }
+
+    if (top + rect.height > viewportHeight) {
+        top = viewportHeight - rect.height - 10;
+    }
+
+    modal.style.left = `${left}px`;
+    modal.style.top = `${top}px`;
 }
 
 function hideModal() {
