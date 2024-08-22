@@ -1,4 +1,9 @@
+function log(message) {
+    console.log(`[${new Date().toISOString()}] ${message}`);
+}
+
 document.addEventListener('DOMContentLoaded', async function() {
+    log('DOM content loaded');
     const manageTeamsButton = document.getElementById('manageTeamsButton');
     const managePeopleButton = document.getElementById('managePeopleButton');
     const exportButton = document.getElementById('exportButton');
@@ -25,11 +30,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     renderUpcomingHolidays();
 
     function exportData() {
+        log('Exporting data');
         const data = {
             people: JSON.parse(localStorage.getItem('people') || '[]'),
             teams: JSON.parse(localStorage.getItem('teams') || '[]'),
             holidays: JSON.parse(localStorage.getItem('holidays') || '[]')
         };
+        log('Data prepared for export');
         const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -42,10 +49,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     function importData() {
+        log('Importing data');
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = '.json';
         input.onchange = (event) => {
+            log('File selected for import');
             const file = event.target.files[0];
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -66,10 +75,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     function createActivityGrids() {
+        log('Creating activity grids');
         const people = JSON.parse(localStorage.getItem('people')) || [];
         const activityYears = new Set();
         const activityGridContainer = document.getElementById('activityGridContainer');
         activityGridContainer.innerHTML = '';
+        log('Activity grid container cleared');
 
         const currentYear = new Date().getFullYear();
         const relevantYears = [currentYear - 1, currentYear, currentYear + 1];
@@ -186,6 +197,7 @@ function hideModal() {
 }
 
 async function fetchHolidays() {
+    log('Fetching holidays');
     const countries = ['US', 'GB', 'IN', 'CR'];
     const year = new Date().getFullYear();
     const holidays = [];
@@ -229,6 +241,7 @@ function getCountryFlag(country) {
 }
 
 function renderUpcomingHolidays() {
+    log('Rendering upcoming holidays');
     const upcomingHolidaysContainer = document.getElementById('upcomingHolidays');
     const today = new Date();
     const sixMonthsLater = new Date(today.getFullYear(), today.getMonth() + 6, today.getDate());
