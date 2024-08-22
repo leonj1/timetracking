@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
 
+    renderUpcomingActivities();
+
     // Add event listener for edit person links
     document.addEventListener('click', function(e) {
         if (e.target && e.target.classList.contains('edit-person')) {
@@ -386,4 +388,55 @@ function renderUpcomingHolidays() {
             </thead>
             <tbody>${holidayTable}</tbody>
         </table>`;
+}
+
+function renderUpcomingActivities() {
+    log('Rendering upcoming activities');
+    const upcomingActivitiesContainer = document.createElement('div');
+    upcomingActivitiesContainer.id = 'upcomingActivities';
+    upcomingActivitiesContainer.className = 'mt-4';
+
+    const today = new Date();
+    const thirtyDaysLater = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 30);
+
+    const people = JSON.parse(localStorage.getItem('people')) || [];
+
+    const upcomingActivities = people.flatMap(person => 
+        (person.activities || []).map(activity => ({
+            ...activity,
+            name: person.name,
+            team: person.team
+        }))
+    ).filter(activity => {
+        const startDate = new Date(activity.startDate);
+        return startDate >= today && startDate <= thirtyDaysLater;
+    }).sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+
+    if (upcomingActivities.length > 0) {
+        const activityTable = upcomingActivities.map(activity => {
+            const startDate = new Date(activity.startDate);
+            const formattedDate = `${startDate.toLocaleString('default', { month: 'short' })} ${startDate.getDate()}`;
+            return `<tr>
+                <td class="text-left w-24">${formattedDate}</td>
+                <td class="text-left">${activity.name} (${activity.team})</td>
+                <td class="text-left">${activity.reason || 'N/A'}</td>
+            </tr>`;
+        }).join('');
+
+        upcomingActivitiesContainer.innerHTML = `
+            <h2 class="text-xl font-bold mb-2">Upcoming Activities (Next 30 Days)</h2>
+            <table class="w-full">
+                <thead>
+                    <tr>
+                        <th class="w-24 text-left">Date</th>
+                        <th class="text-left">Person (Team)</th>
+                        <th class="text-left">Reason</th>
+                    </tr>
+                </thead>
+                <tbody>${activityTable}</tbody>
+            </table>`;
+
+        const upcomingHolidaysContainer = document.getElementById('upcomingHolidays');
+        upcomingHolidaysContainer.parentNode.insertBefore(upcomingActivitiesContainer, upcomingHolidaysContainer.nextSibling);
+    }
 }
