@@ -27,7 +27,19 @@ document.addEventListener('DOMContentLoaded', async function() {
     importButton.addEventListener('click', importData);
 
     await fetchHolidays();
-    renderUpcomingHolidays();
+
+    const viewHolidaysButton = document.getElementById('viewHolidaysButton');
+    viewHolidaysButton.addEventListener('click', function() {
+        const upcomingHolidays = document.getElementById('upcomingHolidays');
+        if (upcomingHolidays.classList.contains('hidden')) {
+            renderUpcomingHolidays();
+            upcomingHolidays.classList.remove('hidden');
+            viewHolidaysButton.textContent = 'Hide Upcoming Holidays';
+        } else {
+            upcomingHolidays.classList.add('hidden');
+            viewHolidaysButton.textContent = 'View Upcoming Holidays';
+        }
+    });
 
     // Add event listener for edit person links
     document.addEventListener('click', function(e) {
