@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     peopleList.addEventListener('click', function(e) {
         if (e.target.closest('.view-person-activities')) {
             const index = e.target.closest('.view-person-activities').dataset.index;
-            window.location.href = `activity_list.html?index=${index}`;
+            window.location.href = `set_date.html?index=${index}`;
         } else if (e.target.classList.contains('edit-person')) {
             const index = e.target.dataset.index;
             showEditPersonPage(index);
