@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             personElement.innerHTML = `
                 <span>${person.name} (${person.team})</span>
                 <div>
-                    <button class="set-person-date btn btn-small btn-primary mr-2" data-index="${index}">
+                    <button class="view-person-activities btn btn-small btn-primary mr-2" data-index="${index}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                             <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
@@ -138,9 +138,9 @@ document.addEventListener('DOMContentLoaded', function() {
     populateTeamSelect(teamSelect);
 
     peopleList.addEventListener('click', function(e) {
-        if (e.target.classList.contains('set-person-date')) {
-            const index = e.target.dataset.index;
-            window.location.href = `set_date.html?index=${index}`;
+        if (e.target.closest('.view-person-activities')) {
+            const index = e.target.closest('.view-person-activities').dataset.index;
+            window.location.href = `activity_list.html?index=${index}`;
         } else if (e.target.classList.contains('edit-person')) {
             const index = e.target.dataset.index;
             showEditPersonPage(index);
